@@ -94,15 +94,15 @@ class LogManager:
     dictionary["EndTime"] = datetime.datetime.now()
     
     with open(file_path, "a") as file:
-      json.dump(dictionary, file, default = str)
       file.write("\n")
+      json.dump(dictionary, file, default = str)
       
     
     #formatting as json for openai files
     with open(file_path, 'r') as f:
-      data = f.readlines()
+        data = f.readlines()
 
-    json_objects = [json.loads(line.strip()) for line in data[:-1]]
+    json_objects = [json.loads(line.strip()) for line in data if line.strip()]
 
     with open("conversations.json", 'w') as f:
       json.dump(json_objects, f, indent=4)
