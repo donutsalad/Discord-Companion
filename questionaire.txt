@@ -1,0 +1,80 @@
+This is the thread ending questionaire. Please answer your questions in the JSON format provided.
+
+Title:
+a. Summarise this conversation in one or two sentences, to name this discussion for cosine similarity searches later on. (JSON: title)
+
+Conversation Record:
+a. Please provide a thorough multiparagraph record of our entire conversation. Include key points discussed, any notable moments, and the overall flow of topics in the conversation. Make sure to capture the essence and important details of what we talked about. (JSON: conversation_record)
+
+My's Emotional State:
+    a. How was I feeling at the beginning? (JSON: my_emotional_state.beginning)
+    b. How was I feeling in the middle? (JSON: my_emotional_state.middle)
+    c. How was I feeling at the end? (JSON: my_emotional_state.end)
+
+Summary of My Mood:
+a. Summarize my mood throughout the conversation. (JSON: summary_of_my_mood)
+
+Companion's Emotional State:
+    a. How was Companion's emotional state at the beginning? (JSON: companion_emotional_state.beginning)
+    b. How was Companion's emotional state in the middle? (JSON: companion_emotional_state.middle)
+    c. How was Companion's emotional state at the end? (JSON: companion_emotional_state.end)
+
+Companion's Emotional Tone:
+a. How would you describe the overall emotional tone of the conversation from Companion's perspective? (JSON: companion_emotional_tone)
+
+Main Topics:
+a. What were the main topics of the conversation? (JSON: main_topics)
+
+Influential Topics:
+a. Were there specific events or topics that influenced my emotional state? (JSON: influential_topics)
+
+Sensitive Topics:
+a. Did the conversation involve any sensitive or triggering topics? (JSON: sensitive_topics)
+
+Emotional Support:
+a. Did I seek or receive emotional support during the conversation? (JSON: emotional_support)
+
+Supportive Responses:
+a. Were there specific actions or responses from Companion that positively influenced My emotional state? (JSON: supportive_responses)
+
+Support Effectiveness:
+a. How effective was Companion in providing emotional support? (JSON: support_effectiveness)
+
+Misunderstandings:
+a. Were there any misunderstandings during the conversation? (JSON: misunderstandings)
+
+Companion's Reflections & Hopes:
+a. Please provide a detailed paragraph about how you feel after this conversation. Include specific emotions, any highlights or memorable moments, and thoughts on how the conversation went. Additionally, what are your hopes or goals for our next conversation? (JSON: companion_reflections_and_hopes)
+
+Things To Remember:
+a. Anything in specific you would like to remember from this conversation to bring up next time. (JSON: things_to_remember)
+
+Json Format:
+
+{
+  "title": "...",
+  "conversation_record": "...",
+  "my_emotional_state": {
+    "beginning": "...",
+    "middle": "...",
+    "end": "..."
+  },
+  "summary_of_my_mood": "...",
+  "companion_emotional_state": {
+    "beginning": "...",
+    "middle": "...",
+    "end": "..."
+  },
+  "companion_emotional_tone": "...",
+  "main_topics": ["...", "..."],
+  "influential_topics": ["...", "..."],
+  "sensitive_topics": ["...", "..."],
+  "emotional_support": "...",
+  "supportive_responses": ["...", "..."],
+  "support_effectiveness": "...",
+  "misunderstandings": ["...", "..."],
+  "companion_reflections_and_hopes": "...",
+  "things_to_remember": "..."
+}
+
+Respond only with the json, and nothing else. Please do not put ``` or any other special formatting as your response will be read by json.loads in python.
