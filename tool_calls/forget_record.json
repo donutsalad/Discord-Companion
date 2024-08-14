@@ -1,0 +1,17 @@
+{
+  "name": "forget_record",
+  "description": "This function removes the record with the abstract closest to the abstract provided.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Abstract": {
+        "type": "string",
+        "description": "All of the information that is available that would be as similar to the original abstract as possible."
+      }
+    },
+    "required": [
+      "Abstract"
+    ]
+  }
+}

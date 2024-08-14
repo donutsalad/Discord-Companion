@@ -1,0 +1,17 @@
+{
+  "name": "read_webpage",
+  "description": "This function takes the URL provided and returns the content of the web page.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "URL": {
+        "type": "string",
+        "description": "The URL of their choice."
+      }
+    },
+    "required": [
+      "URL"
+    ]
+  }
+}

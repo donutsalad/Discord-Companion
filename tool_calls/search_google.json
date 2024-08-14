@@ -1,0 +1,21 @@
+{
+  "name": "search_google",
+  "description": "This function searches Google for content using the provided query. Use either if the user requests, or if you are seeking out information.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Query": {
+        "type": "string",
+        "description": "The search query to provide to google."
+      },
+      "Count": {
+        "type": "integer",
+        "description": "The top N results from google."
+      }
+    },
+    "required": [
+      "Query"
+    ]
+  }
+}
