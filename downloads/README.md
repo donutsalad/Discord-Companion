@@ -1,0 +1,1 @@
+This folder contains all attachments sent to your companion - for logs.
