@@ -1,6 +1,6 @@
 # Discord Companion
 
-Your companion is a customizable Discord AI Chatbot designed to provide a personalized, engaging, and humorous AI interaction experience. Whether you want a playful companion, a helpful assistant, or both, Your companion is here for you!
+Your companion is a customizable Discord AI Chatbot designed to provide a personalized, engaging, and humorous AI interaction experience. Whether you want a playful companion, a helpful assistant, or both, your companion is here for you!
 
 ## Features:
 - **Conversational Integration**: Your companion interacts naturally and contextually with users on Discord.
@@ -63,6 +63,8 @@ To set up your companion, you'll need:
 2. **Set Up OpenAI Assistant:**
    - Go to the [Open AI Dashboard](https://platform.openai.com/) and create a new API key.
    - Copy the key into the `tokens.txt` file.
+   - Copy all the tool_calls into the functions of the assistant.
+  
 3. **Configure Google Programmable Search:**
    - Create a [Programmable Search Engine](https://cse.google.com/) and generate an API key and search context.
    - Copy the key and context into the `tokens.txt` file.
