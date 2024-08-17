@@ -11,7 +11,7 @@
       },
       "Arguments": {
         "type": "string",
-        "description": "A string of arguments to pass to the script, formatted like '--arg1=value1 --arg2=value2'."
+        "description": "A string of arguments to pass to the script, formatted like 'value1 value2'."
       }
     },
     "required": [

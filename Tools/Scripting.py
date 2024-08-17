@@ -22,14 +22,16 @@ def save_script(tool_call):
     # Sanitize script name for use in file system
     safe_name = script_name.strip().replace(" ", "_")
 
-    # Check for existing files and rename if needed
+    # Check if file without prefix exists, rename if needed
     script_path = f"scripts/{safe_name}.py"
-    count = 2
-    while os.path.exists(script_path):
-        script_path = f"scripts/{count}-{safe_name}.py"
-        count += 1
-    
-    # Create the script file
+    if os.path.exists(script_path):
+        count = 1
+        while os.path.exists(f"scripts/{count}-{safe_name}.py"):
+            count += 1
+        # Rename existing file
+        os.rename(script_path, f"scripts/{count}-{safe_name}.py")
+
+    # Create the new script file with no prefix
     with open(script_path, "w") as script_file:
         script_file.write(script_code)
 
