@@ -63,7 +63,7 @@ def run_script(tool_call):
         return f"Ran the code, an error occured, please let the user know about the error: {e.output}"
       
 
-def list_scripts():
+def list_scripts(tool_call):
     scripts_info = []
     
     try:
