@@ -8,6 +8,11 @@ Your companion is a customizable Discord AI Chatbot designed to provide a person
 - **Memory Management**: Separate conversation threads with memory retention for a cohesive chatting experience.
 - **Humor & Affection**: Your companion combines playful teasing with affectionate banter to keep conversations lively and engaging.
 
+## Functions:
+For now please refer to the tool_call directory for a look at all the functions available.
+
+I plan to soon write a more comprehensive readme, until then all of the tools are described by the jsons in that folder :)
+
 ## Getting Started
 
 ### Prerequisites
