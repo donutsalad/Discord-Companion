@@ -36,7 +36,7 @@ def save_script(tool_call):
     return "successful"
 
 
-def run_script(tool_call):
+def run_script_old(tool_call):
     script_name = tool_call.args["Script Name"]
     arguments = tool_call.args["Arguments"]
 
@@ -62,6 +62,32 @@ def run_script(tool_call):
     except subprocess.CalledProcessError as e:
         return f"Ran the code, an error occured, please let the user know about the error: {e.output}"
       
+def run_script(tool_call):
+    script_name = tool_call.args["Script Name"]
+    arguments = tool_call.args["Arguments"]
+
+    # Sanitize script name for file system
+    safe_name = script_name.strip().replace(" ", "_")
+    script_path = f"scripts/{safe_name}.py"
+
+    # Find the correct script file if it has been renamed
+    count = 2
+    while not os.path.exists(script_path) and count < 100:
+        script_path = f"scripts/{count}-{safe_name}.py"
+        count += 1
+
+    if not os.path.exists(script_path):
+        return "script not found"
+
+    # Run the script with the given arguments using a list for better argument handling
+    command = ["python", script_path] + arguments.split()
+
+    try:
+        output = subprocess.check_output(command, text=True)
+        return output
+    except subprocess.CalledProcessError as e:
+        return f"Ran the code, an error occurred; command: {' '.join(command)}, error: {e.output}"      
+
 
 def list_scripts(tool_call):
     scripts_info = []
