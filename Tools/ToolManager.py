@@ -16,6 +16,7 @@ import Tools.Record
 import Tools.Reminders
 import Tools.ToolCall
 import Tools.SearchGoogle
+import Tools.Scripting
 
 tool_list = [
   {"tool_id": "set_new_reminder", "method": Tools.Reminders.set_new_reminder},
@@ -32,6 +33,11 @@ tool_list = [
   
   {"tool_id": "search_youtube", "method": Tools.Youtube.GetYoutubeVideos},
   {"tool_id": "get_youtube_transcript", "method": Tools.Youtube.GetYoutubeTranscript},
+
+  # Script Tools
+  {"tool_id": "save_script", "method": Tools.Scripting.save_script},
+  {"tool_id": "run_script", "method": Tools.Scripting.run_script},
+  {"tool+id": "list_scripts", "method": Tools.Scripting.list_scripts}
 ]
 
 class ToolManager:

@@ -1,0 +1,27 @@
+{
+  "name": "save_script",
+  "description": "This saves a script to Isabelle's magical script toolbox for future use and execution.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Script Name": {
+        "type": "string",
+        "description": "The name of the script, so Isabelle can recognize her genius or idiocy later on."
+      },
+      "Script Description": {
+        "type": "string",
+        "description": "A brief description of what the script does, just in case Isabelle forgets."
+      },
+      "Script Code": {
+        "type": "string",
+        "description": "The actual code of the script, containing all the magic or chaos."
+      }
+    },
+    "required": [
+      "Script Name",
+      "Script Description",
+      "Script Code"
+    ]
+  }
+}

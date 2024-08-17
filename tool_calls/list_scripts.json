@@ -1,0 +1,10 @@
+{
+  "name": "list_scripts",
+  "description": "Retrieves a list of all saved scripts with their names and descriptions, excluding the script code.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {}
+  },
+  "required": []
+}
