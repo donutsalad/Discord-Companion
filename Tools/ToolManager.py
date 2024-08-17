@@ -7,6 +7,7 @@ import ticker
 import Tools
 import Tools.WebPage
 import Tools.WebTools
+import Tools.Youtube
 import Tools.Embedding
 import Tools.RecordBank
 import Tools.ReminderBank
@@ -28,6 +29,9 @@ tool_list = [
   #Core Web Functions
   {"tool_id": "read_webpage", "method": Tools.WebPage.ReadSite},
   {"tool_id": "search_google", "method": Tools.SearchGoogle.SearchGoogle},
+  
+  {"tool_id": "search_youtube", "method": Tools.Youtube.GetYoutubeVideos},
+  {"tool_id": "get_youtube_transcript", "method": Tools.Youtube.GetYoutubeTranscript},
 ]
 
 class ToolManager:
