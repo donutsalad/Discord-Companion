@@ -37,7 +37,8 @@ tool_list = [
   # Script Tools
   {"tool_id": "save_script", "method": Tools.Scripting.save_script},
   {"tool_id": "run_script", "method": Tools.Scripting.run_script},
-  {"tool+id": "list_scripts", "method": Tools.Scripting.list_scripts}
+  {"tool_id": "list_scripts", "method": Tools.Scripting.list_scripts},
+  {"tool_id": "delete_script", "method": Tools.Scripting.delete_script}
 ]
 
 class ToolManager:

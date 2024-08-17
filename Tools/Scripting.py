@@ -78,3 +78,41 @@ def list_scripts(tool_call):
         return "No scripts found."
 
     return json.dumps(scripts_info)
+  
+def delete_script(tool_call):
+    script_name = tool_call.args["Script Name"]
+
+    # Path to your script records file
+    records_file = 'scripts/script_records.txt'
+
+    # Read all the scripts listed in the records file
+    with open(records_file, 'r') as file:
+        lines = file.readlines()
+
+    # Find and remove the script entry, while ignoring empty lines
+    new_lines = []
+    for line in lines:
+        if line.strip():  # Check if the line is not empty
+            entry = json.loads(line)
+            if entry["Name"] != script_name:
+                new_lines.append(line)
+
+    # Write back the cleaned list to the records file
+    with open(records_file, 'w') as file:
+        file.writelines(new_lines)
+
+    # Sanitize script name for file system
+    safe_name = script_name.strip().replace(" ", "_")
+    script_path = f"scripts/{safe_name}.py"
+
+    # Find the correct script file if it has been renamed
+    count = 2
+    while not os.path.exists(script_path) and count < 100:
+        script_path = f"scripts/{count}-{safe_name}.py"
+        count += 1
+
+    if os.path.exists(script_path):
+        os.remove(script_path)
+        return f"{script_name}.py has been deleted."
+    else:
+        return f"{script_name}.py does not exist."

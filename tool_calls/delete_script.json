@@ -1,0 +1,17 @@
+{
+  "name": "delete_script",
+  "description": "Removes a script entry from the records and deletes the corresponding .py file.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Script Name": {
+        "type": "string",
+        "description": "The name of the script to be deleted."
+      }
+    },
+    "required": [
+      "Script Name"
+    ]
+  }
+}
