@@ -1,0 +1,1 @@
+This is the folder all your companions scripts will be held.

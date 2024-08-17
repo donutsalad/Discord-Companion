@@ -159,6 +159,8 @@ conversations.json
 
 data/*
 downloads/*
+scripts/*
 
 !downloads/README.md
 !data/README.md
+!scripts/README.md
