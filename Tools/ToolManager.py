@@ -17,6 +17,7 @@ import Tools.Reminders
 import Tools.ToolCall
 import Tools.SearchGoogle
 import Tools.Scripting
+import Tools.VoiceMessage
 
 tool_list = [
   {"tool_id": "set_new_reminder", "method": Tools.Reminders.set_new_reminder},
@@ -38,7 +39,10 @@ tool_list = [
   {"tool_id": "save_script", "method": Tools.Scripting.save_script},
   {"tool_id": "run_script", "method": Tools.Scripting.run_script},
   {"tool_id": "list_scripts", "method": Tools.Scripting.list_scripts},
-  {"tool_id": "delete_script", "method": Tools.Scripting.delete_script}
+  {"tool_id": "delete_script", "method": Tools.Scripting.delete_script},
+  
+  # Voice Message
+  {"tool_id": "tts_speech", "method": Tools.VoiceMessage.tts_speech}
 ]
 
 class ToolManager:

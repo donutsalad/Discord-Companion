@@ -1,0 +1,17 @@
+{
+  "name": "tts_speech",
+  "description": "This function takes text input and generates an audio file using text-to-speech, then uploads it via DM.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "The text content you want to convert to speech."
+      }
+    },
+    "required": [
+      "text"
+    ]
+  }
+}
