@@ -171,7 +171,8 @@ class OpenAIChatHandler:
             assistant_id = self.assistant.id,
             instructions = Reminder_Prompt() + information,
             thread = { "messages": [
-              {"role": "assistant", "content": logmanager.get_most_recent_conversation()}
+              {"role": "assistant", "content": logmanager.get_most_recent_conversation()},
+              {"role": "assistant", "content": "I'll read the reminder out to you from my prompt, so you can just listen to it instead of reading about it."}
             ]}
           )
           
