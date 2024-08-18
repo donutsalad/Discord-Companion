@@ -9,14 +9,14 @@
         "type": "string",
         "description": "All of the information required for the record should be put here in a way it can be embedded semantically."
       },
-      "Memory": {
+      "Record": {
         "type": "string",
         "description": "Whatever the user wants to store, a URL, a discord message link, or simply a plain text result."
       }
     },
     "required": [
       "Abstract",
-      "Memory"
+      "Record"
     ]
   }
 }
