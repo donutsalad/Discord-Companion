@@ -18,6 +18,7 @@ import Tools.ToolCall
 import Tools.SearchGoogle
 import Tools.Scripting
 import Tools.VoiceMessage
+import Tools.DallE
 
 tool_list = [
   {"tool_id": "set_new_reminder", "method": Tools.Reminders.set_new_reminder},
@@ -42,7 +43,10 @@ tool_list = [
   {"tool_id": "delete_script", "method": Tools.Scripting.delete_script},
   
   # Voice Message
-  {"tool_id": "tts_speech", "method": Tools.VoiceMessage.tts_speech}
+  {"tool_id": "tts_speech", "method": Tools.VoiceMessage.tts_speech},
+
+  # Image generation
+  {"tool_id": "generate_image", "method": Tools.DallE.GenerateDallEImage}
 ]
 
 class ToolManager:
