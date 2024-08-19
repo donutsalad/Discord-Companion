@@ -3,6 +3,7 @@ import discord
 
 import logmanager
 import ticker
+import restarting
 
 import Tools
 import Tools.WebPage
@@ -67,10 +68,16 @@ class ToolManager:
     
     for method in tool_list:
       if method["tool_id"] == tool.function.name:
-        return [{
-          "tool_call_id": tool.id,
-          "output": method["method"](Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders))
-        }]
+        try:
+          #Catch any exceptions thrown by the tool referenced.  
+          return [{
+            "tool_call_id": tool.id,
+            "output": method["method"](Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders))
+          }]
+        except Exception as e:
+          print("Error occured in the tool_call, please check your code.\nSpecific error:")
+          print(e)
+          restarting.restart_program()
       
     return [{
       "tool_call_id": tool.id,
