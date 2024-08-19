@@ -121,10 +121,10 @@ class Conversation:
     self.Questionaire = dict()
     
   def log_user_message(self, message):
-    self.Messages.append({"who": "Isabelle", "when": datetime.datetime.now(), "message": message})
+    self.Messages.append({"who": "User", "when": datetime.datetime.now(), "message": message})
     
   def log_user_image(self, image):
-    self.Messages.append({"who": "Isabelle_pic", "when": datetime.datetime.now(), "path": image})
+    self.Messages.append({"who": "User_pic", "when": datetime.datetime.now(), "path": image})
     
   def log_companion_message(self, message):
     self.Messages.append({"who": "Companion", "when": datetime.datetime.now(), "message": message})
