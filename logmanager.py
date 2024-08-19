@@ -99,17 +99,20 @@ class LogManager:
     dictionary = self.CurrentConversation.as_dict()
     dictionary["EndTime"] = datetime.datetime.now()
     
+    conlog.log_log_manager("Appending conversation to conversations.txt")
     with open(file_path, "a") as file:
       file.write("\n")
       json.dump(dictionary, file, default = str)
       
     
+    conlog.log_log_manager("Reformatting for conversations.json")
     #formatting as json for openai files
     with open(file_path, 'r') as f:
         data = f.readlines()
 
     json_objects = [json.loads(line.strip()) for line in data if line.strip()]
 
+    conlog.log_log_manager("Saving conversations.json")
     with open("conversations.json", 'w') as f:
       json.dump(json_objects, f, indent=4)
     #---

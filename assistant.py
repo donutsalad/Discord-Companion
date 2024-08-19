@@ -106,30 +106,32 @@ class OpenAIChatHandler:
     
     if self.run is None:
         self.ended = False
+        conlog.log_chat_message_user(f'New Thread First Message:\n{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{message.content}')
         await self.new_thread(message)
         
     elif not self.ended:
         if self.run.thread_id is not None:
+            conlog.log_chat_message_user(f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{message.content}')
             await self.existing_thread(message)
             
     else:
         self.ended = False
+        conlog.log_chat_message_user(f'New Thread First Message:\n{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{message.content}')
         await self.new_thread(message)
         
     return
 
   async def new_thread(self, message: discord.Message):
+    conlog.log_assistant("New thread starting.")
+    self.logger.StartConversation()
+    self.logger.LogUserMessage(message.content)
     
-      conlog.log_assistant("New thread starting.")
-      self.logger.StartConversation()
-      self.logger.LogUserMessage(message.content)
-      
-      await self.discord.change_presence(status = discord.Status.online, activity = discord.CustomActivity(name = "Talking to you!"))
-      await self.handle_run(message, True)
+    await self.discord.change_presence(status = discord.Status.online, activity = discord.CustomActivity(name = "Talking to you!"))
+    await self.handle_run(message, True)
 
   async def existing_thread(self, message: discord.Message):
-      self.logger.LogUserMessage(message.content)
-      await self.handle_run(message, False)
+    self.logger.LogUserMessage(message.content)
+    await self.handle_run(message, False)
 
   async def delete_thread(self):
     self.client.beta.threads.delete(self.run.thread_id)
@@ -166,7 +168,8 @@ class OpenAIChatHandler:
     try:
       match type:
         
-        case "Reminder":          
+        case "Reminder":
+          conlog.log_assistant("Creating reminder bourne thread.")
           self.ended = False
           self.run = self.client.beta.threads.create_and_run(
             assistant_id = self.assistant.id,
@@ -211,6 +214,7 @@ class OpenAIChatHandler:
           
         await attachment.save(f"downloads/{filename}")
         files.append(attachment.url)
+        conlog.log_assistant(f'Saved a file to downloads/{filename}')
           
         #Vision
         if attachment.content_type in ('image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image.gif'):
@@ -297,6 +301,8 @@ class OpenAIChatHandler:
       result = await self.toolmanager.handle_tool_call(tool, self.client, self.discorduser)
       results.extend(result)
       
+    
+    conlog.log_assistant("Submitting tool outputs...")
     self.run = self.client.beta.threads.runs.submit_tool_outputs(
       thread_id = self.run.thread_id,
       run_id = self.run.id,
@@ -312,6 +318,7 @@ class OpenAIChatHandler:
         
       match self.run.status:
         case "failed":
+          conlog.log_assistant("Run failed! Could be context window overflow.")
           await self.discorduser.dm_channel.send("The run failed! Restarting...")
           await self.delete_thread()
           restarting.restart_program()
@@ -335,6 +342,7 @@ class OpenAIChatHandler:
         result = messages.data[0].content[0].text.value
         
         self.logger.LogCompanionMessage(result)
+        conlog.log_chat_message_assistant(f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n{result}')
         
         final = False          
         if "<END>" in result[-5:]:
@@ -367,6 +375,8 @@ class OpenAIChatHandler:
         await self.delete_thread()
 
   async def CompleteQuestionaire(self):
+    
+    conlog.log_assistant("Asking companion to complete the questionaire.")
     
     messages = [
       {"role": "user", "content": questionaire}
@@ -405,6 +415,7 @@ class OpenAIChatHandler:
         result = messages.data[0].content[0].text.value
         
         self.logger.QuestionaireCompleted(result)
+        conlog.log_assistant("Questionaire completed.")
       
       case "requires_action":
         await self.handle_tool_call(self.run, self.discorduser)

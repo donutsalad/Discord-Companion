@@ -43,7 +43,7 @@ def SetupDiscordClient(companionqueue: asyncio.Queue, user_id: int) -> discord.C
       await companionqueue.put(message)
            
     except Exception as e:
-      await message.channel.send("Please let Isabelle (the developer) know when you saw this. An error was thrown! Please check your account as it could be that you ran out of credit, however if you have money it must be an internal error.")
+      await message.channel.send("Please let Isabelle (the developer) know when you saw this. An error was thrown!")
       await message.channel.send("Restarting the discord bot...")
       conlog.log_discord("Specific error:")
       conlog.log_discord(e)

@@ -70,13 +70,23 @@ class ToolManager:
     for method in tool_list:
       if method["tool_id"] == tool.function.name:
         try:
+          
           #Catch any exceptions thrown by the tool referenced.
           output = method["method"](Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders))
-          self.logger.LogToolResult(tool.function.name, output)
-          return [{
-            "tool_call_id": tool.id,
-            "output": output
-          }]
+          
+          if isinstance(output, str):
+            self.logger.LogToolResult(tool.function.name, output)
+            return [{
+              "tool_call_id": tool.id,
+              "output": output
+            }]
+            
+          else:
+            return [{
+              "tool_call_id": tool.id,
+              "output": "Please let the user know that the output provided was not a stringified json - and ask them if they wrote the code, and if they need help debugging it. If it was a core function tell them to contact the developers."
+            }]
+            
         except Exception as e:
           ("Error occured in the tool_call, please check your code.\nSpecific error:")
           conlog.log_tool_manager(e)
