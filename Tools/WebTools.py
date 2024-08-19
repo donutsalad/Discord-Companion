@@ -9,12 +9,16 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
   
 #Not sure if this is the best technique
 def ReadGenericPage(url):
-  html = requests.get(url, headers = headers).text
-  soup = BeautifulSoup(html, features="html.parser")
+  try:
+    html = requests.get(url, headers = headers).text
+    soup = BeautifulSoup(html, features="html.parser")
 
-  results: ResultSet = soup.find_all(string = True)
+    results: ResultSet = soup.find_all(string = True)
   
-  return [
-    entry.text
-    for entry in results
-  ]
+    return [
+      entry.text
+      for entry in results
+    ]
+    
+  except Exception as e:
+    return "Let the user know you can't access this website."
