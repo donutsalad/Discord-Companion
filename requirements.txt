@@ -9,3 +9,4 @@ wikipedia
 youtube-search-python
 youtube-transcript-api
 pypdf
+colorama

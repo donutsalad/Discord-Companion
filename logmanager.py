@@ -2,6 +2,7 @@ import os
 import json
 import discord
 import datetime
+import conlog
 
 file_path = 'conversations.txt'
 
@@ -27,14 +28,12 @@ This is what I wanted to remember
 Last time they were feeling: "{last_mood}" 💕
 
 And I felt this: "{last_reflection}" 😇"""
-
-        print(message_starter)
       
     else:
       return "The user can't see this message, I just realised to myself this is the first time I'm meeting them, I should introduce myself and get to know them."
         
   except Exception as e: 
-    print(f"Error occured\nSpecific error: {e}")
+    conlog.log_log_manager(f"Error occured\nSpecific error: {e}")
     return "The user won't see this message so I need to tell them something went wrong when I see them."
       
   return message_starter
@@ -49,42 +48,42 @@ class LogManager:
     
   def LogUserMessage(self, message):
     if self.CurrentConversation is None:
-      print("Warning: User message recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: User message recieved without an active conversation. Ignoring.")
       return
     
     self.CurrentConversation.log_user_message(message)
     
   def LogUserImage(self, image):
     if self.CurrentConversation is None:
-      print("Warning: User image recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: User image recieved without an active conversation. Ignoring.")
       return
     
     self.CurrentConversation.log_user_image(image)
     
   def LogCompanionMessage(self, message):
     if self.CurrentConversation is None:
-      print("Warning: Companion message recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: Companion message recieved without an active conversation. Ignoring.")
       return
     
     self.CurrentConversation.log_companion_message(message)
     
   def LogToolCall(self, tool, args):
     if self.CurrentConversation is None:
-      print("Warning: Tool Call recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: Tool Call recieved without an active conversation. Ignoring.")
       return
     
     self.CurrentConversation.log_tool_call(tool, args)
     
   def LogToolResult(self, tool, result):
     if self.CurrentConversation is None:
-      print("Warning: Tool Call recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: Tool Call recieved without an active conversation. Ignoring.")
       return
 
     self.CurrentConversation.log_tool_result(tool, result)
     
   def QuestionaireCompleted(self, questionaire):
     if self.CurrentConversation is None:
-      print("Warning: Questionaire recieved without an active conversation. Ignoring.")
+      conlog.log_log_manager("Warning: Questionaire recieved without an active conversation. Ignoring.")
       return
     
     try:
@@ -92,7 +91,7 @@ class LogManager:
       self.CurrentConversation.questionaire_completed(dictionary)
       
     except Exception as e:
-      print("Warning!!! The result wasn't a clean json. Storing string to fix later...")
+      conlog.log_log_manager("Warning!!! The result wasn't a clean json. Storing string to fix later...")
       self.CurrentConversation.questionaire_completed(f"NON_JSON_RESPONSE:\n{questionaire}")
       
     

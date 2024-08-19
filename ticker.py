@@ -1,6 +1,7 @@
 import asyncio
 import datetime
 from Tools import RecordBank, ReminderBank
+import conlog
 
 class Ticker:
   def __init__(self, reminderbank: ReminderBank.ReminderBank, record: RecordBank.RecordBank, outqueue: asyncio.Queue):
@@ -26,11 +27,11 @@ class Ticker:
           self.reminders.Save()
           self.record.Save()
           savetime = now + datetime.timedelta(minutes = 10)
-          print("Saved!")
+          conlog.log_ticker("Saved!")
           
         except Exception as e:
           #TODO: Make sure.
-          print("Failed to save something, potentially being saved too right now.")
+          conlog.log_ticker("Failed to save something, potentially being saved too right now.")
           savetime = now + datetime.timedelta(minutes = 1)
       
       await asyncio.sleep(1)

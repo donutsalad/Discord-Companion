@@ -7,6 +7,7 @@ import discord
 
 import logmanager
 import restarting
+import conlog
 import Tools
 import Tools.ToolManager
 
@@ -92,7 +93,7 @@ class OpenAIChatHandler:
     while True:
       
       if self.discorduser is None:
-        print("Still waiting on getting discord user...")
+        conlog.log_assistant("Still waiting on getting discord user...")
         self.discorduser = self.get_discord_user()
       
       if not self.queue.empty():
@@ -119,7 +120,7 @@ class OpenAIChatHandler:
 
   async def new_thread(self, message: discord.Message):
     
-      print("New thread starting.")
+      conlog.log_assistant("New thread starting.")
       self.logger.StartConversation()
       self.logger.LogUserMessage(message.content)
       
@@ -137,7 +138,7 @@ class OpenAIChatHandler:
     
     self.logger.EndConversation()
     
-    print("Uploading conversation data...")
+    conlog.log_assistant("Uploading conversation data...")
     await self.discord.change_presence(status = discord.Status.idle, activity = discord.CustomActivity(name = "Uploading conversation data"))
     self.vector_store = self.client.beta.vector_stores.create(name="Companion's Files")
     
@@ -152,7 +153,7 @@ class OpenAIChatHandler:
     )
     
     await self.discord.change_presence(status = discord.Status.idle, activity = discord.CustomActivity(name = "Counting electric sheep zzz"))
-    print("Thread ended.")
+    conlog.log_assistant("Thread ended.")
     
   async def external_thread(self, type, information):
     
@@ -177,11 +178,11 @@ class OpenAIChatHandler:
           )
           
         case _:
-          print("Unknown Internal Message Type, Raising Exception.")
+          conlog.log_assistant("Unknown Internal Message Type, Raising Exception.")
           raise Exception("Unknown Internal Message Type sent to Assistant.")
         
     except Exception as e:
-      print("\n\nWARNING: unable to handle internal event. Raising exception.")
+      conlog.log_assistant("\n\nWARNING: unable to handle internal event. Raising exception.")
       raise Exception(f"Internal problem creating thread {e}")
       #TODO: Catch this
         
@@ -317,7 +318,7 @@ class OpenAIChatHandler:
           return
           
         case "in_progress":
-          #print("waiting for responce...")
+          #conlog.log_assistant("waiting for responce...")
           await asyncio.sleep(0.35)
           
       self.run = self.client.beta.threads.runs.retrieve(thread_id = self.run.thread_id, run_id = self.run.id)
@@ -353,7 +354,7 @@ class OpenAIChatHandler:
             await self.discorduser.dm_channel.send(chunk[:1999])
           
         if final:
-          print("Thread ending from end token.")
+          conlog.log_assistant("Thread ending from end token.")
           await self.CompleteQuestionaire()
           await self.delete_thread()
         return
@@ -387,7 +388,7 @@ class OpenAIChatHandler:
           return
           
         case "in_progress":
-          #print("waiting for responce...")
+          #conlog.log_assistant("waiting for responce...")
           await asyncio.sleep(0.35)
           
       self.run = self.client.beta.threads.runs.retrieve(thread_id = self.run.thread_id, run_id = self.run.id)

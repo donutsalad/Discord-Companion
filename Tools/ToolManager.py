@@ -4,6 +4,7 @@ import discord
 import logmanager
 import ticker
 import restarting
+import conlog
 
 import Tools
 import Tools.WebPage
@@ -77,8 +78,8 @@ class ToolManager:
             "output": output
           }]
         except Exception as e:
-          print("Error occured in the tool_call, please check your code.\nSpecific error:")
-          print(e)
+          ("Error occured in the tool_call, please check your code.\nSpecific error:")
+          conlog.log_tool_manager(e)
           restarting.restart_program()
       
     return [{
