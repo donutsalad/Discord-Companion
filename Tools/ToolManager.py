@@ -69,10 +69,12 @@ class ToolManager:
     for method in tool_list:
       if method["tool_id"] == tool.function.name:
         try:
-          #Catch any exceptions thrown by the tool referenced.  
+          #Catch any exceptions thrown by the tool referenced.
+          output = method["method"](Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders))
+          self.logger.LogToolResult(tool.function.name, output)
           return [{
             "tool_call_id": tool.id,
-            "output": method["method"](Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders))
+            "output": output
           }]
         except Exception as e:
           print("Error occured in the tool_call, please check your code.\nSpecific error:")

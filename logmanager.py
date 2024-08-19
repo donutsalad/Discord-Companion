@@ -75,6 +75,13 @@ class LogManager:
     
     self.CurrentConversation.log_tool_call(tool, args)
     
+  def LogToolResult(self, tool, result):
+    if self.CurrentConversation is None:
+      print("Warning: Tool Call recieved without an active conversation. Ignoring.")
+      return
+
+    self.CurrentConversation.log_tool_result(tool, result)
+    
   def QuestionaireCompleted(self, questionaire):
     if self.CurrentConversation is None:
       print("Warning: Questionaire recieved without an active conversation. Ignoring.")
@@ -118,6 +125,7 @@ class Conversation:
     self.StartedAt = datetime.datetime.now()
     self.Messages = []
     self.ToolCalls = []
+    self.ToolResults = []
     self.Questionaire = dict()
     
   def log_user_message(self, message):
@@ -132,6 +140,9 @@ class Conversation:
   def log_tool_call(self, tool, args):
     self.ToolCalls.append({"tool": tool, "args": args, "when": datetime.datetime.now()})
     
+  def log_tool_result(self, tool, result):
+    self.ToolResults.append({"tool": tool, "result": result, "when": datetime.datetime.now()})
+    
   def questionaire_completed(self, result):
     self.Questionaire = result
     
@@ -140,5 +151,6 @@ class Conversation:
       "StartTime": self.StartedAt,
       "Messages": self.Messages,
       "ToolCalls": self.ToolCalls,
+      "ToolResults": self.ToolResults,
       "Questionaire": self.Questionaire
     }
