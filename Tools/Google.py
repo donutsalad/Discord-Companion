@@ -9,13 +9,17 @@ def google_search(search_term, api_key, cse_id, num, **kwargs):
   
 def GetGoogleSearches(site: str, query: str, count: int):
   
-  if site == "all":
-    results = google_search(query, tokens.google_api_key, tokens.google_cse_key, num = count)
-  
-  else:
-    results = google_search(f"{query} site:{site}", tokens.google_api_key, tokens.google_cse_key, num = count)
-  
-  return [
-    dict(title = entry["title"], snippet = entry["snippet"], url = entry["link"])
-    for entry in results
-  ]
+  try:
+    if site == "all":
+      results = google_search(query, tokens.google_api_key, tokens.google_cse_key, num = count)
+    
+    else:
+      results = google_search(f"{query} site:{site}", tokens.google_api_key, tokens.google_cse_key, num = count)
+    
+    return [
+      dict(title = entry["title"], snippet = entry["snippet"], url = entry["link"])
+      for entry in results
+    ]
+    
+  except Exception as e:
+    return "Let the user know you were unable to search google this time."

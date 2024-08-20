@@ -31,16 +31,24 @@ class VideoInformation:
         
 
 def GetYoutubeVideos(tool_call: Tools.ToolCall.ToolCall) -> str:
-    videos = VideosSearch(tool_call.args["Query"], limit = int(tool_call.args["Count"]))
-    results: dict = videos.result()
-    return json.dumps({
-        "Videos": [VideoInformation(video).as_json() for video in results["result"]]
-    })
+    try:
+        videos = VideosSearch(tool_call.args["Query"], limit = int(tool_call.args["Count"]))
+        results: dict = videos.result()
+        return json.dumps({
+            "Videos": [VideoInformation(video).as_json() for video in results["result"]]
+        })
+    
+    except Exception as e:
+        return "Let the user know you were unable to search youtube this time."
 
 def GetYoutubeTranscript(tool_call: Tools.ToolCall.ToolCall) -> str:
-    youtubeID: str = extract_youtube_id(tool_call.args["URL"])
-    transcript = YouTubeTranscriptApi.get_transcript(youtubeID)
-    return json.dumps({
-        "Instruction": "Give a summary of the youtube video's key points, and elaborate further with times when prompted by the user.",
-        "Transcript": json.dumps(transcript)
-    })
+    try:
+        youtubeID: str = extract_youtube_id(tool_call.args["URL"])
+        transcript = YouTubeTranscriptApi.get_transcript(youtubeID)
+        return json.dumps({
+            "Instruction": "Give a summary of the youtube video's key points, and elaborate further with times when prompted by the user.",
+            "Transcript": json.dumps(transcript)
+        })
+    
+    except Exception as e:
+        return "Let the user know you were unable to retrieve the transcript from this video."

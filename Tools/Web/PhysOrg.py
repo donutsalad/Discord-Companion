@@ -6,7 +6,7 @@ import Tools.WebTools
 import json
 
 def ReadPhysOrgArticle(url: str):
-    
+  try:
     html = requests.get(url, headers = Tools.WebTools.headers).text
     soup = BeautifulSoup(html, features="html.parser")
 
@@ -14,7 +14,10 @@ def ReadPhysOrgArticle(url: str):
     results: ResultSet = article.find_all("p")
     
     return [
-        result.text
-        for result in results
+      result.text
+      for result in results
     ]
+    
+  except Exception as e:
+    return "Let the user know you can't access this specific webpage."
 

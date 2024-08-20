@@ -66,6 +66,7 @@ class ToolManager:
     args = json.loads(tool.function.arguments)
     
     self.logger.LogToolCall(tool.function.name, args)
+    conlog.log_tool_manager(f'Tool called: {tool.function.name}')
     
     for method in tool_list:
       if method["tool_id"] == tool.function.name:
