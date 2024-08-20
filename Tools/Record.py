@@ -22,7 +22,7 @@ def forget_record(tool_call: Tools.ToolCall.ToolCall) -> str:
     record = tool_call.recordbank.GetRecord(Tools.Embedding.EmbedString(tool_call.client, tool_call.args["Abstract"]), 1)
     if record[0].score < 6:
       confirm = json.dumps({
-          "Instruction": f"Ask the user if she meant to delete: {record[0].record.abstract}."
+          "Instruction": f"Ask the user if they meant to delete: {record[0].record.abstract}."
         })
       return confirm
     else:
@@ -59,12 +59,12 @@ def recall_record(tool_call: Tools.ToolCall.ToolCall) -> str:
       
   if count == 1:
     final_result = json.dumps({
-      "Instruction": "If it has a high confidence you can just let her know the content - otherwise also let her know you're not sure if she means this particular record.",
+      "Instruction": "If it has a high confidence you can just let her know the content - otherwise also let her know you're not sure if they means this particular record.",
       "results": results[0]
     })
           
   else: final_result = json.dumps({
-      "Instruction": "Show the user a list of the abstracts and their scores, and then when she specifies one you can let her know the content of the record.",
+      "Instruction": "Show the user a list of the abstracts and their scores, and then when they specify one you can let her know the content of the record.",
       "results": results[:count]
     })
           

@@ -18,7 +18,7 @@ def set_new_reminder(tool_call: Tools.ToolCall.ToolCall) -> str:
   except Exception as e:
     print(f"Exception raised :/ -> {e}")
     
-  return "Let the user know you've set the reminder, and give her a confirmation :)"
+  return "Let the user know you've set the reminder, and give them a confirmation :)"
 
 def get_reminders(tool_call: Tools.ToolCall.ToolCall) -> str:
   
@@ -46,7 +46,7 @@ def get_reminders(tool_call: Tools.ToolCall.ToolCall) -> str:
     
   else:
     final_result = json.dumps({
-      "result": "Tell the user a summary of the reminders. If she asks for more detail then you can say more!",
+      "result": "Tell the user a summary of the reminders. If they ask for more detail then you can say more!",
       "reminders": results
     })
   
@@ -77,13 +77,13 @@ def get_reminders_semantically(tool_call: Tools.ToolCall.ToolCall) -> str:
     
   if count == 1:
     final_result = json.dumps({
-      "result": "Ask the user if this is the reminder she meant.",
+      "result": "Ask the user if this is the reminder they meant.",
       "reminder": results[0]
     })
     
   else:
     final_result = json.dumps({
-      "result": "Tell the user a summary of the reminders. If she asks for more detail then you can say more!",
+      "result": "Tell the user a summary of the reminders. If they ask for more detail then you can say more!",
       "reminders": results
     })
     
@@ -98,7 +98,7 @@ def remove_reminder(tool_call: Tools.ToolCall.ToolCall) -> str:
     reminder = tool_call.reminderbank.GetReminders(Tools.Embedding.EmbedString(tool_call.client, tool_call.args["Abstract"]), 1)
     if reminder[0].score < 7:
       confirm = json.dumps({
-        "Instruction": f"Ask the user if she meant to delete: {reminder[0].reminder.abstract}."
+        "Instruction": f"Ask the user if they meant to delete: {reminder[0].reminder.abstract}."
       })
       
       return confirm

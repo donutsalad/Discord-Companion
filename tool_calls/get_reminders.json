@@ -7,7 +7,7 @@
     "properties": {
       "Count": {
         "type": "integer",
-        "description": "This should be 1 if the user wants the most recent reminder, otherwise the number of reminders she'd like."
+        "description": "This should be 1 if the user wants the most recent reminder, otherwise the number of reminders they'd like."
       }
     },
     "required": [
