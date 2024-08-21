@@ -59,12 +59,12 @@ def recall_record(tool_call: Tools.ToolCall.ToolCall) -> str:
       
   if count == 1:
     final_result = json.dumps({
-      "Instruction": "If it has a high confidence you can just let her know the content - otherwise also let her know you're not sure if they means this particular record.",
+      "Instruction": "If it has a high confidence you can just let them know the content - otherwise also let them know you're not sure if they means this particular record.",
       "results": results[0]
     })
           
   else: final_result = json.dumps({
-      "Instruction": "Show the user a list of the abstracts and their scores, and then when they specify one you can let her know the content of the record.",
+      "Instruction": "Show the user a list of the abstracts and their scores, and then when they specify one you can let them know the content of the record.",
       "results": results[:count]
     })
           

@@ -2,12 +2,16 @@ import json
 import os
 from datetime import datetime
 import subprocess
+import shlex
 
 def save_script(tool_call):
     script_name = tool_call.args["Script Name"]
     script_description = tool_call.args["Script Description"]
     script_code = tool_call.args["Script Code"]
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    if "input(" in script_code:
+        return "input() is not supported - please rewrite the script using command line arguments."
 
     script_record = {
         "Timestamp": timestamp,
@@ -38,32 +42,6 @@ def save_script(tool_call):
     return "successful"
 
 
-def run_script_old(tool_call):
-    script_name = tool_call.args["Script Name"]
-    arguments = tool_call.args["Arguments"]
-
-    # Sanitize script name for file system
-    safe_name = script_name.strip().replace(" ", "_")
-    script_path = f"scripts/{safe_name}.py"
-
-    # Find the correct script file if it has been renamed
-    count = 2
-    while not os.path.exists(script_path) and count < 100:
-        script_path = f"scripts/{count}-{safe_name}.py"
-        count += 1
-
-    if not os.path.exists(script_path):
-        return "script not found"
-
-    # Run the script with the given arguments
-    command = f"python {script_path} {arguments}"
-    try:
-        #TODO: enable inputs.
-        output = subprocess.check_output(command, shell=True, text=True)
-        return output
-    except subprocess.CalledProcessError as e:
-        return f"Ran the code, an error occured, please let the user know about the error: {e.output}"
-      
 def run_script(tool_call):
     script_name = tool_call.args["Script Name"]
     arguments = tool_call.args["Arguments"]
@@ -81,14 +59,14 @@ def run_script(tool_call):
     if not os.path.exists(script_path):
         return "script not found"
 
-    # Run the script with the given arguments using a list for better argument handling
-    command = ["python", script_path] + arguments.split()
+    # Use shlex.split to handle arguments properly
+    command = ["python", script_path] + shlex.split(arguments)
 
     try:
         output = subprocess.check_output(command, text=True)
         return output
     except subprocess.CalledProcessError as e:
-        return f"Ran the code, an error occurred; command: {' '.join(command)}, error: {e.output}"      
+        return f"Ran the code, an error occurred; command: {' '.join(command)}, error: {e.output}" 
 
 
 def list_scripts(tool_call):
