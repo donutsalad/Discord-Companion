@@ -41,9 +41,6 @@ def log_chat_message_assistant(message):
     print(format_message('Chat Message Assistant', Fore.LIGHTCYAN_EX, message, MAX_SOURCE_LENGTH))
     
 def log_log_manager(message):
-    print(format_message('Conversations.json', Fore.YELLOW, message, MAX_SOURCE_LENGTH))
-    
-def log_log_manager(message):
     print(format_message('Conversations.json', Fore.LIGHTRED_EX, message, MAX_SOURCE_LENGTH))
     
 def log_restart(message):
