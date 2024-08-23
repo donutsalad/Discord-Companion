@@ -12,6 +12,9 @@ def save_script(tool_call):
     
     if "input(" in script_code:
         return "input() is not supported - please rewrite the script using command line arguments."
+    
+    if "output_result" not in script_code:
+        return "the output of the script has to be stored in a variable named output_result, please rewrite this and show the user."
 
     script_record = {
         "Timestamp": timestamp,
@@ -46,7 +49,7 @@ def save_script(tool_call):
         return "Please let the user know the file was unable to be saved."
 
 
-def run_script(tool_call):
+def run_script_old(tool_call):
     script_name = tool_call.args["Script Name"]
     arguments = tool_call.args["Arguments"]
 
@@ -75,6 +78,42 @@ def run_script(tool_call):
     
     except Exception as e:
         return "Please let the user know you were unable to open the script"
+    
+    
+def run_script(tool_call):
+    script_name = tool_call.args["Script Name"]
+    arguments = tool_call.args["Arguments"]
+
+    # sanitize script name for file system
+    safe_name = script_name.strip().replace(" ", "_")
+    script_path = f"scripts/{safe_name}.py"
+
+    # find the correct script file if it has been renamed
+    count = 2
+    try:
+        while not os.path.exists(script_path) and count < 100:
+            script_path = f"scripts/{count}-{safe_name}.py"
+            count += 1
+
+        if not os.path.exists(script_path):
+            return "script not found"
+
+        # read the script content
+        with open(script_path, 'r') as script_file:
+            script_content = script_file.read()
+        
+        # prepare locals and globals
+        local_scope = {}
+        global_scope = {}
+        
+        # execute the script
+        exec(script_content, global_scope, local_scope)
+        
+        output = local_scope.get('output_result', 'No output captured - please let the user know the output has to be stored in a variable called output_result')
+        return json.dumps(output)
+    
+    except Exception as e:
+        return f"an error occurred: {e}"
 
 
 def list_scripts(tool_call):
