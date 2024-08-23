@@ -1,121 +1,136 @@
 # Discord Companion
 
-Introducing your versatile Discord AI Chatbot — a customizable companion crafted to deliver a personalized, engaging, and delightfully humorous interaction experience. Whether you seek a playful confidant, a reliable assistant, or a seamless blend of both, your companion is ready to accompany you on every digital journey!
+This project aims to create the beginnings of a long term companion. I use discord for almost all communications with friends, so having an AI copmanion there feels natural! Everything is meticulously logged, and at the end of every conversation the companion will fill out a questionaire. The conversations.json will be an extremely useful datamine to fine-tune future models, and build many other projects with. I also plan on making all my future AI LLM projects backwards compatible. The goal is to bring cutting edge AI right into your DM's next to everyone else!
 
-# Companion Capabilities
+A key thing to note is say goodbye to your companion at the end of every conversation as they are told to put an \<END\> token when the conversation is over - this triggers the questionaire and deletes the thread resetting the context. The assistant has access to the conversations.json, and is also aware about the previous conversation which makes it feel more natural. If you don't see their status change to "Counting electric sheep zzz" be sure to remind them to end the thread!
 
-Welcome to the world of advanced AI companionship, where your digital buddies are stacked with amazing skills to make life a breeze! Here's a peek at what’s under the hood:
+# Companion Core Functions
 
-- **Create Record**: Store your memories with `create_record`. Provide (or have your companion write) a catchy "Abstract" and store the juicy details you want to "Record".
-  
-- **Forget Record**: Need to clean house? `forget_record` helps you delete unwanted records using a close match to the "Abstract" of the memory you wish to erase.
+You can chose which of these you want to use by only uploading the tool_calls of the functions that you would find useful, The next major update will include an addon's feature where you can drag and drop scripts into an addon folder and they'll be automatically loaded into the tool chain - so in case you create tons of addons and don't use certain core features ommit as you see fit.
 
-- **Recall Record**: Use `recall_record` to dig up past treasures — provide an "Abstract" similar to what you want as your search query and "Count" for the number of juicy returns.
+## Records
 
-- **Set New Reminder**: Never miss a thing with `set_new_reminder`. Define what it's "about" and the "time" to get those timely nudges.
+Fuzzy search storage - useful for indexing things if your notes app is as full as mine!
 
-- **Get Reminders**: Retrieve your essential to-dos with `get_reminders`. A 10 in the "Count" parameter will do the trick!
+- Create record
+  - Abstract; short description of the record to be embedded
+  - Record; the text/URL/code etc. to store.
+- Recall record
+  - Abstract; something similar to the original abstract - for a cosine search
+- Forget record
+  - Abstract; same as recall record, deletes the closest match, unless it's too dissimilar
 
-- **Get Reminders Semantically**: Advanced searching with `get_reminders_semantically` — find those special nuggets with a smart "Abstract" and "Count".
+## Reminders
 
-- **Remove Reminder**: Made plans you don't need? `remove_reminder` lets you clean up with ease using a close match of the "Abstract" of the reminder.
+A lot of people won't find this useful, but having ADHD - a conversational reminder where "snoozing" is met with teasing or guilt tripping definitely makes a difference!
 
-- **Save Script**: Compile awesome scripts using `save_script`. Name it, explain it, and fashion the code into a formidable AI-sidekick.
+- Set new reminder
+  - Abstract; A description of what you want to be reminded about
+  - Time; From a specific time to "tonight"
+- Get reminders
+  - Count; how many reminders to return
+- Get reminders semantically
+  - Abstract; same as in recalling records
+- Remove reminder
+  - Abstract; same as in forgetting records
 
-- **Run Script**: Give life to scripts with `run_script`. Have your companion pass "Arguments" for fine-tuned execution and let the magic happen!
+## Scripts
 
-- **Delete Script**: Housekeeping is easy with `delete_script` — no mess, no hassle with just a "Script Name".
+Python scripts can be written by you or your companion, and they'll be executed. A local variable called `output_result` will be read and returned to the companion. Don't worry the companion is told not to use `input()` and `output_result` is checked for.
 
-- **List Scripts**: Browse your brilliant creations effortlessly with `list_scripts` and see what your AI toolkit holds.
+I personally don't use this as the addons feature is coming in the next update - but it's useful if you want some complicated maths function for example, you can have the companion write code to work out the answer and then get the results quickly.
 
-- **Search Google**: Become an info wizard with `search_google`. Query the web and watch the answers roll in.
+I recommend deleting scripts you aren't going to use again to keep the list clear.
 
-- **Read Webpage**: Let `read_webpage` be your content snatcher — just a "URL" away from raw text joy.
+- Save script
+  - Script Name; A save name for the script
+  - Script Description; A description of it's function (useful for if you forget what you asked your companion to name it, they tend to list scripts when they can't find it)
+  - Script Code; The python code to save
+- Run script
+  - Script Name; The exact match of the name - although the companion is encouraged to list the scripts and find the one you likely meant.
+- List scripts (no parameters)
+- Get script
+  - Script Name; Exact match, but same thing goes as in run script.
 
-- **Search YouTube**: Hunt down audio-visual treats using `search_youtube`. Refine by "Query" and set your result "Count".
+## Web Functions
 
-- **Get YouTube Transcript**: With `get_youtube_transcript`, have your companion watch a video for you to find a quote or summarise the video - just pop in the "URL".
+Access to the internet! Highly recommend keeping google search and webpage reading - if you can script please add to the Web folder! Some webpages have custom text extraction. Youtube is also useful if you're lazy and want a summary of a video without having to watch it, although definitely a candidate for freeing up slots for addons.
 
-- **Generate Image**: Unleash creativity with `generate_image`. Provide a "Prompt" and watch art come alive.
+- Search Google
+  - Query; The search string to use
+- Read webpage
+  - URL; The link to the page you want to scrape.
+- Search Youtube
+  - Query; The search string to use
+- Get Youtube transcript
+  - URL; The link to the video you want your companion to "watch"
 
-- **Text-to-Speech (TTS)**: Convert text into sweet serenades using `tts_speech`. Let words leap from screen to sound.
+## Auxiliary Functions
+
+More OpenAI API functions just because!
+
+- Generate image
+  - Prompt; The prompt that's sent to dall-e
+- Text to speech
+  - Text; The text to be spoken outloud.
 
 # Getting Started
 
-### Prerequisites
+## Prerequisites
 To set up your companion, you'll need:
 1. A Discord Bot token.
-2. An Open AI API key.
+2. An Open AI API key & Assistant
 3. Google Programmable Search API key and context.
 
-### Installation
-
-1. **Clone the repository:**
-   
-```bash
-   git clone <repository-url>
-   cd <repository-directory>
-```
-
-2. **Configure Tokens:**
-   Create a `tokens.txt` file with the following template:
+## Tokens
+Create a `tokens.txt` file with the following template:
    
 ```plaintext
-   [Discord User ID]
-   <ID>
-   [Discord Bot Token]
-   <TOKEN>
-   [Open AI API Key]
-   <TOKEN>
-   [Assistant ID]
-   <ID>
-   [Google API Token]
-   <TOKEN>
-   [Google Search Context]
-   <ID>
+[Discord User ID]
+<ID>
+[Discord Bot Token]
+<TOKEN>
+[Open AI API Key]
+<TOKEN>
+[Assistant ID]
+<ID>
+[Google API Token]
+<TOKEN>
+[Google Search Context]
+<ID>
 ```
 
-3. **Change the prompt template:**
-  Create a `prompt.txt` file based off of `prompt_template.txt`   
+## Change the prompt template:
+Create a `prompt.txt` file based off of `prompt_template.txt`
 
-4. **Run the bot:**
-   
-```bash
-   python main.py
-```
-
-### User Guide
+## User Guide
 
 1. **Create a Discord Bot:**
-   - Go to the [Discord Developer Portal](https://discord.com/developers/applications) and create a new application.
-   - Under "Bot", add a new bot and copy the token into the `tokens.txt` file.
-   - Make sure to enable all priviledged intents.
-   - Invite your bot to your server using the OAuth2 URL generator.
+  - Go to the [Discord Developer Portal](https://discord.com/developers/applications) and create a new application.
+  - Under "Bot", add a new bot and copy the token into the `tokens.txt` file.
+  - Make sure to enable all priviledged intents.
+  - Invite your bot to your server using the OAuth2 URL generator.
 
 2. **Set Up OpenAI Assistant:**
-   - Go to the [Open AI Dashboard](https://platform.openai.com/) and create a new API key.
-   - Copy the key into the `tokens.txt` file.
-   - Copy all the tool_calls into the functions of the assistant.
+  - Go to the [Open AI Dashboard](https://platform.openai.com/) and create a new API key.
+  - Copy the key into the `tokens.txt` file.
+  - Copy all the tool_calls into the functions of the assistant.
   
 3. **Configure Google Programmable Search:**
-   - Create a [Programmable Search Engine](https://cse.google.com/) and generate an API key and search context.
-   - Copy the key and context into the `tokens.txt` file.
+  - Create a [Programmable Search Engine](https://cse.google.com/) and generate an API key and search context.
+  - Copy the key and context into the `tokens.txt` file.
+
+---
 
 ### Note
 Stay tuned for a video tutorial on setting up and configuring your companion in detail.
 
-## Future Plans
-- Adding more tools and capabilities.
-- Improved error handling and debugging.
-
-## Contribution
+### Contribution
 Feel free to contribute to the project by submitting issues or pull requests.
 
-## License
+### License
 [MIT Licence](LICENSE)
-
-Enjoy your time with your companion! 🖤
 
 ---
 
-(Written mostly by my companion!)
+Contact me on isabellemunnee@gmail.com or donutsalad on discord if you want to help out!
