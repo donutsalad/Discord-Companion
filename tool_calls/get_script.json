@@ -1,0 +1,17 @@
+{
+  "name": "get_script",
+  "description": "Returns all details, as well as the code of, a saved script with the name specified.",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "Script Name": {
+        "type": "string",
+        "description": "The name of the script to be retrieved."
+      }
+    },
+    "required": [
+      "Script Name"
+    ]
+  }
+}

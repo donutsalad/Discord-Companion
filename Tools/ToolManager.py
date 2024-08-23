@@ -42,6 +42,7 @@ tool_list = [
   {"tool_id": "save_script", "method": Tools.Scripting.save_script},
   {"tool_id": "run_script", "method": Tools.Scripting.run_script},
   {"tool_id": "list_scripts", "method": Tools.Scripting.list_scripts},
+  {"tool_id": "get_script", "method": Tools.Scripting.get_script},
   {"tool_id": "delete_script", "method": Tools.Scripting.delete_script},
   
   # Voice Message
@@ -90,7 +91,7 @@ class ToolManager:
             
         except Exception as e:
           ("Error occured in the tool_call, please check your code.\nSpecific error:")
-          conlog.log_tool_manager(e)
+          conlog.log_tool_manager(f'Error occured in tool:\n{e}')
           restarting.restart_program()
       
     return [{

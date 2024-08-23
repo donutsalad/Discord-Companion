@@ -1,6 +1,6 @@
 {
   "name": "save_script",
-  "description": "This saves a script to the local script directory to be run and accessed later.",
+  "description": "This saves a script to the local script directory to be run and accessed later. input() and print() cannot be used. Output should be placed into a variable named output_result.",
   "strict": false,
   "parameters": {
     "type": "object",
