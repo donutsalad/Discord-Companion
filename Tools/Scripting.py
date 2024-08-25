@@ -103,6 +103,7 @@ def list_scripts(tool_call):
 
 def get_script(tool_call):
   try:
+    # This loops forever on Windows.
     with open("scripts/script_records.txt", "r") as record_file:
       for line in record_file:
         script_record = json.loads(line)

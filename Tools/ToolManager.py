@@ -5,6 +5,7 @@ import logmanager
 import ticker
 import restarting
 import conlog
+import addons.addons as addons
 
 import Tools
 import Tools.WebPage
@@ -54,11 +55,12 @@ tool_list = [
 
 class ToolManager:
   
-  def __init__(self, discord: discord.Client, ticking: ticker.Ticker, record: Tools.RecordBank.RecordBank, reminders: Tools.ReminderBank.ReminderBank, logger: logmanager.LogManager):
+  def __init__(self, addons: addons.Registrar, discord: discord.Client, ticking: ticker.Ticker, record: Tools.RecordBank.RecordBank, reminders: Tools.ReminderBank.ReminderBank, logger: logmanager.LogManager):
     self.ticking = ticking
     self.RecordBank = record
     self.reminders = reminders
     
+    self.addons = addons
     self.discord = discord
     self.logger = logger
 
@@ -83,17 +85,31 @@ class ToolManager:
               "output": output
             }]
             
-          else:
+        except Exception as e:
+          ("Error occured in the tool_call, please check your code.\nSpecific error:")
+          conlog.log_tool_manager(f'Error occured in tool:\n{e}')
+          restarting.restart_program()
+    
+    for method in self.addons.function_list:
+      if method["name"] == tool.function.name:
+        try:
+          
+          #Catch any exceptions thrown by the tool referenced.
+          output = self.addons.call_function(Tools.ToolCall.ToolCall(tool.function.name, tool, args, client, self.discord, user, self.RecordBank, self.reminders), tool.function.name)
+          
+          if isinstance(output, str):
+            self.logger.LogToolResult(tool.function.name, output)
             return [{
               "tool_call_id": tool.id,
-              "output": "Please let the user know that the output provided was not a stringified json - and ask them if they wrote the code, and if they need help debugging it. If it was a core function tell them to contact the developers."
+              "output": output
             }]
             
         except Exception as e:
           ("Error occured in the tool_call, please check your code.\nSpecific error:")
           conlog.log_tool_manager(f'Error occured in tool:\n{e}')
           restarting.restart_program()
-      
+          
+
     return [{
       "tool_call_id": tool.id,
       "output": "Please let the user know that this tool isn't implemented yet"

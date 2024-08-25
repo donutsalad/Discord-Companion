@@ -1,0 +1,10 @@
+{
+  "name": "demo_function",
+  "description": "Runs the demo addon function at the users request",
+  "strict": false,
+  "parameters": {
+    "type": "object",
+    "properties": {}
+  },
+  "required": []
+}

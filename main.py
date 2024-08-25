@@ -7,6 +7,7 @@ import discordbot
 import assistant
 import ticker
 import logmanager
+import addons.addons as addons
 
 import Tools.Embedding
 import Tools.Record
@@ -39,7 +40,10 @@ async def main():
   ticking = ticker.Ticker(reminders, records, masterqueue)
   conlog.log_system("Ticker created")
   
-  toolmanager = Tools.ToolManager.ToolManager(client, ticking, records, reminders, logger)
+  addons_handler = addons.Registrar(masterqueue, logger, client)
+  conlog.log_assistant("Addons registered")
+  
+  toolmanager = Tools.ToolManager.ToolManager(addons_handler, client, ticking, records, reminders, logger)
   conlog.log_system("Tool manager created.")
   
   assistant_handler = assistant.OpenAIChatHandler(assistantqueue, logger, toolmanager, client, tokens.openai_key, tokens.assistant_id, tokens.user_id)
